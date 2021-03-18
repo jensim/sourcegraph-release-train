@@ -21,8 +21,9 @@ cd sourcegraph
 git fetch --all --tags
 git checkout "tags/$tag" -b "$tag-release-branch-$docker_hub_user" || echo foo > /dev/null
 
-cd cmd/server
-./pre-build.sh
+#cd cmd/server
+cd cmd/symbols
+#./pre-build.sh
 ./build.sh
 
 
