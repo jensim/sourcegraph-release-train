@@ -1,0 +1,19 @@
+name: Release train
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: trigger build script
+        run: |
+          cd "$(git rev-parse --show-toplevel)"
+          bash train.bash
