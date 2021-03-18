@@ -13,8 +13,6 @@ source '.env'
 export IMAGE="$docker_hub_user/$docker_hub_repo"
 export VERSION="$TAG-oss"
 
-rm -rf sourcegraph
-git clone git@github.com:sourcegraph/sourcegraph.git
 cd sourcegraph
 
 git fetch --all --tags
