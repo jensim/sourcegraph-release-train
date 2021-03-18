@@ -25,9 +25,8 @@ if [ 'Linux' == "$(uname -s)" ] ; then
   sudo apt-get install musl-tools
 fi
 
-#cd cmd/server
-cd cmd/symbols
-#./pre-build.sh
+cd cmd/server
+./pre-build.sh
 ./build.sh
 
 
