@@ -22,7 +22,7 @@ git fetch --all --tags
 git checkout "tags/$tag" -b "$tag-release-branch-$docker_hub_user" || echo foo > /dev/null
 
 if [ 'Linux' == "$(uname -s)" ] ; then
-  sudo apt-get install musl-gcc
+  sudo apt-get install musl-tools
 fi
 
 #cd cmd/server
