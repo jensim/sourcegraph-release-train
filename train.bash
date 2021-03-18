@@ -21,6 +21,10 @@ cd sourcegraph
 git fetch --all --tags
 git checkout "tags/$tag" -b "$tag-release-branch-$docker_hub_user" || echo foo > /dev/null
 
+if [ 'Linux' == "$(uname -s)" ] ; then
+  sudo apt install musl-gcc
+fi
+
 #cd cmd/server
 cd cmd/symbols
 #./pre-build.sh
