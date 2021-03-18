@@ -11,12 +11,15 @@ source '.env'
 [ -n "$docker_hub_repo" ]
 
 export IMAGE="$docker_hub_user/$docker_hub_repo"
-export VERSION="$TAG-oss"
+export VERSION="$tag-oss"
 
+if ! [ -d sourcegraph ] ; then
+  git clone git@github.com:sourcegraph/sourcegraph.git
+fi
 cd sourcegraph
 
 git fetch --all --tags
-git checkout "tags/$tag" -b "$tag-release-branch-$docker_hub_user"
+git checkout "tags/$tag" -b "$tag-release-branch-$docker_hub_user" || echo foo > /dev/null
 
 cd cmd/server
 ./pre-build.sh
