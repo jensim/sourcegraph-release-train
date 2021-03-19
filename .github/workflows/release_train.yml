@@ -17,6 +17,11 @@ jobs:
         with:
           repository: sourcegraph/sourcegraph
           path: sourcegraph
+      - name: docker login
+        env:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u "$docker_username" -p "$docker_password"
       - name: trigger build script
         run: |
           cd "$(git rev-parse --show-toplevel)"
