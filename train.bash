@@ -4,13 +4,25 @@ set -xe
 
 cd "$(git rev-parse --show-toplevel)"
 
-source '.env'
+[ -n "$docker_username" ]
+[ -n "$docker_password" ]
+[ -n "$docker_repo" ]
 
-[ -n "$tag" ]
-[ -n "$docker_hub_user" ]
-[ -n "$docker_hub_repo" ]
+docker login --username "$docker_username" --password "$docker_password"
 
-export IMAGE="$docker_hub_user/$docker_hub_repo"
+curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
+tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
+
+curl https://hub.docker.com/v2/repositories/jensim/sourcegraph-server-oss/tags -o /tmp/docker_tags.json
+
+if jq -r '.results[] | .name' /tmp/docker_tags.json | grep "$tag" ; then
+  echo "======================================
+=  Tag '$tag' already in docker hub  =
+======================================"
+  exit 0
+fi
+
+export IMAGE="$docker_username/$docker_repo"
 export VERSION="$tag-oss"
 
 if ! [ -d sourcegraph ]; then
@@ -18,8 +30,7 @@ if ! [ -d sourcegraph ]; then
 fi
 cd sourcegraph
 
-git fetch --all --tags
-git checkout "tags/$tag" -b "$tag-release-branch-$docker_hub_user" || echo foo >/dev/null
+git checkout "tags/$tag" -b "$tag-release-branch-$docker_username" || echo foo >/dev/null
 
 if [ 'Linux' == "$(uname -s)" ]; then
   sudo apt-get install musl-tools
@@ -29,10 +40,13 @@ cd cmd/server
 ./pre-build.sh
 ./build.sh
 
-docker image tag "${docker_hub_user}/${docker_hub_repo}:latest" "${docker_hub_user}/${docker_hub_repo}:${tag}"
-docker image tag "${docker_hub_user}/${docker_hub_repo}:latest" "${docker_hub_user}/${docker_hub_repo}:${VERSION}"
+image_line="$(docker image ls "${docker_username}/${docker_repo}:latest" | tail -n 1)"
+image_id="$(sed  's/^[^ ]* *[^ ]* *\([^ ]*\).*$/\1/g' <<< "$image_line")"
 
-docker image push --all-tags "${docker_hub_user}/${docker_hub_repo}:latest"
+docker image tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${tag}"
+docker image tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${VERSION}"
+
+docker image push --all-tags "${image_id}"
 
 echo '===========
 =  Done!  =
