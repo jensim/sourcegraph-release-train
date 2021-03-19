@@ -13,9 +13,9 @@ docker login --username "$docker_username" --password "$docker_password"
 curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
 tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
 
-curl https://hub.docker.com/v2/repositories/jensim/sourcegraph-server-oss/tags -o /tmp/docker_tags.json
+curl "https://hub.docker.com/v2/repositories/${docker_username}/${docker_repo}/tags" -o /tmp/docker_tags.json
 
-if jq -r '.results[] | .name' /tmp/docker_tags.json | grep "$tag" ; then
+if jq -r '.results[] | .name' /tmp/docker_tags.json | grep -E "^${tag}$"; then
   echo "======================================
 =  Tag '$tag' already in docker hub  =
 ======================================"
