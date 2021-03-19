@@ -38,13 +38,10 @@ cd cmd/server
 ./pre-build.sh
 ./build.sh
 
-image_line="$(docker image ls "${docker_username}/${docker_repo}:latest" | tail -n 1)"
-image_id="$(sed  's/^[^ ]* *[^ ]* *\([^ ]*\).*$/\1/g' <<< "$image_line")"
+docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${tag}"
+docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${VERSION}"
 
-docker image tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${tag}"
-docker image tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${VERSION}"
-
-docker image push --all-tags "${image_id}"
+docker push --all-tags "${docker_username}/${docker_repo}"
 
 echo '===========
 =  Done!  =
