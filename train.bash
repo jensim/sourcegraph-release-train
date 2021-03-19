@@ -25,12 +25,10 @@ fi
 export IMAGE="$docker_username/$docker_repo"
 export VERSION="$tag-oss"
 
-if ! [ -d sourcegraph ]; then
-  git clone git@github.com:sourcegraph/sourcegraph.git
-fi
 cd sourcegraph
 
-git checkout "tags/$tag" -b "$tag-release-branch-$docker_username" || echo foo >/dev/null
+git fetch origin refs/tags/$tag:refs/tags/$tag
+git checkout "tags/$tag" -b "$tag-release-branch-$docker_username"
 
 if [ 'Linux' == "$(uname -s)" ]; then
   sudo apt-get install musl-tools
