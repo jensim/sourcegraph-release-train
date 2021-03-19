@@ -1,7 +1,33 @@
-# sourcegraph-release-train
+# sourcegraph-oss-release-train
 
 https://hub.docker.com/r/jensim/sourcegraph-server-oss/tags?page=1&ordering=last_updated
 
 This repo just creates a build pipeline on top of [sourcegraph](https://github.com/sourcegraph/sourcegraph)-OSS.
 The [enterprise version](https://hub.docker.com/r/sourcegraph/server) is great, but I cannot afford it beyond the trial, and since I like automating things,
 I thought I'd automate the release pipeline for the OSS docker image.
+
+## Simple run conf
+```shell
+docker run -d \
+  --publish 7080:7080 \
+  --publish 127.0.0.1:3370:3370 \
+  --rm \
+  --volume ~/.sourcegraph/config:/etc/sourcegraph \
+  --volume ~/.sourcegraph/data:/var/opt/sourcegraph \
+  jensim/sourcegraph-server-oss:latest
+```
+
+## docker-compose.yml
+```yaml
+version: '3.3'
+
+services:
+  source-graph:
+    image: jensim/sourcegraph-server-oss:latest
+    ports:
+      - "7080:7080"
+    volumes:
+      - .sourcegraph/config:/etc/sourcegraph
+      - .sourcegraph/data:/var/opt/sourcegraph
+      - .sourcegraph/site-conf:/root
+```
