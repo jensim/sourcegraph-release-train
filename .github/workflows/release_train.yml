@@ -2,7 +2,7 @@ name: Release train
 
 on:
   schedule:
-    - cron:  '15 2 * * *'
+    - cron:  '15 20 * * *'
   push:
     paths:
       - .github/workflows/release_train.yml
