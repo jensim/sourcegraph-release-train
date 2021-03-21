@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,58 +22,22 @@ jobs:
         with:
           repository: sourcegraph/sourcegraph
           path: sourcegraph
-
-  build_gitserver:
-    runs-on: ubuntu-latest
-    needs:
-      - install
-    steps:
       - run: |
-         cd sourcegraph/cmd/gitserver
+         cd $HOME/sourcegraph/cmd/gitserver
          ./build.sh
-  build_searcher:
-    runs-on: ubuntu-latest
-    needs:
-      - install
-    steps:
       - run: |
-          cd sourcegraph/cmd/searcher
+          cd $HOME/sourcegraph/cmd/searcher
           ./build.sh
-  build_symbols:
-    runs-on: ubuntu-latest
-    needs:
-      - install
-    steps:
       - run: |
-          cd sourcegraph/cmd/symbols
+          cd $HOME/sourcegraph/cmd/symbols
           ./build.sh
-  build_frontend:
-    runs-on: ubuntu-latest
-    needs:
-      - install
-    steps:
       - run: |
-          cd sourcegraph/cmd/frontend
+          cd $HOME/sourcegraph/cmd/frontend
           ./build.sh
-  build_repo-updater:
-    runs-on: ubuntu-latest
-    needs:
-      - install
-    steps:
       - run: |
-          cd sourcegraph/cmd/repo-updater
+          cd $HOME/sourcegraph/cmd/repo-updater
           ./build.sh
-  build_server:
-    runs-on: ubuntu-latest
-    needs:
-      - install
-      - build_gitserver
-      - build_searcher
-      - build_symbols
-      - build_frontend
-      - build_repo-updater
-    steps:
       - run: |
-          cd sourcegraph/cmd/server
+          cd $HOME/sourcegraph/cmd/server
           ./pre-build.sh
           ./build.sh
