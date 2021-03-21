@@ -23,21 +23,23 @@ jobs:
         shell: bash
         run: |
           set -exo pipefail
-          current_version="$(cat latest_version || printf '')"
+          current_version="$(cat .latest_version || printf '')"
           curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
           tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
           if [ -n "$tag" ] && [ "$current_version" != "$tag" ] ; then
             git config user.email "jens.brimfors@gmail.com"
             git config user.name "GitHub Actions on behalf of Jens Brimfors"
-            git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-            git pull github "${GITHUB_REF}" --rebase --ff-only
+            echo "$SSH_PRIVATE" > "$HOME/.ssh/id_ed25519"
+            echo "$SSH_PUBLIC" > "$HOME/.ssh/id_ed25519.pub"
+            eval "$(ssh-agent -s)"
+            ssh-add
 
             echo "New version found! $tag"
-            echo "$tag" > latest_version
+            echo "$tag" > .latest_version
 
-            git add latest_version
-            git commit -m "Update latest_version to $tag"
-            git push github "HEAD:${GITHUB_REF}"
+            git add .latest_version
+            git commit -m "Update .latest_version to $tag"
+            git push origin
           else
             exit 0
           fi
