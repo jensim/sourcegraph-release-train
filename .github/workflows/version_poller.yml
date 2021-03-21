@@ -20,6 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Poll for latest version
+        env:
+          SSH_PRIVATE: ${{ secrets.SSH_PRIVATE }}
+          SSH_PUBLIC: ${{ secrets.SSH_PUBLIC }}
         shell: bash
         run: |
           set -exo pipefail
