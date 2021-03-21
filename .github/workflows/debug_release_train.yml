@@ -24,6 +24,9 @@ jobs:
           path: sourcegraph
           ref: v3.26.0
       - run: |
+          cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
+          ./pre-build.sh
+      - run: |
          cd $GITHUB_WORKSPACE/sourcegraph/cmd/gitserver
          ./build.sh
       - run: |
@@ -40,5 +43,4 @@ jobs:
           ./build.sh
       - run: |
           cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
-          ./pre-build.sh
           ./build.sh
