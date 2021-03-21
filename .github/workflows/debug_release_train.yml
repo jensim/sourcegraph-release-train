@@ -21,24 +21,24 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: sourcegraph/sourcegraph
-          path: $HOME/sourcegraph
+          path: sourcegraph
           ref: tags/v3.26.0
       - run: |
-         cd $HOME/sourcegraph/cmd/gitserver
+         cd $GITHUB_WORKSPACE/sourcegraph/cmd/gitserver
          ./build.sh
       - run: |
-          cd $HOME/sourcegraph/cmd/searcher
+          cd $GITHUB_WORKSPACE/sourcegraph/cmd/searcher
           ./build.sh
       - run: |
-          cd $HOME/sourcegraph/cmd/symbols
+          cd $GITHUB_WORKSPACE/sourcegraph/cmd/symbols
           ./build.sh
       - run: |
-          cd $HOME/sourcegraph/cmd/frontend
+          cd $GITHUB_WORKSPACE/sourcegraph/cmd/frontend
           ./build.sh
       - run: |
-          cd $HOME/sourcegraph/cmd/repo-updater
+          cd $GITHUB_WORKSPACE/sourcegraph/cmd/repo-updater
           ./build.sh
       - run: |
-          cd $HOME/sourcegraph/cmd/server
+          cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
           ./pre-build.sh
           ./build.sh
