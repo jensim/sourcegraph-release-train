@@ -23,7 +23,11 @@ jobs:
           repository: sourcegraph/sourcegraph
           path: sourcegraph
           ref: v3.25.2
-      - run: |
+      - name: build server
+        env:
+          VERSION: v3.25.2
+          IMAGE: sourcegraph-server-oss
+        run: |
           cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
           ./pre-build.sh
           ./build.sh
