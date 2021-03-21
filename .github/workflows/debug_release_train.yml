@@ -26,21 +26,4 @@ jobs:
       - run: |
           cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
           ./pre-build.sh
-      - run: |
-         cd $GITHUB_WORKSPACE/sourcegraph/cmd/gitserver
-         ./build.sh
-      - run: |
-          cd $GITHUB_WORKSPACE/sourcegraph/cmd/searcher
-          ./build.sh
-      - run: |
-          cd $GITHUB_WORKSPACE/sourcegraph/cmd/symbols
-          ./build.sh
-      - run: |
-          cd $GITHUB_WORKSPACE/sourcegraph/cmd/frontend
-          ./build.sh
-      - run: |
-          cd $GITHUB_WORKSPACE/sourcegraph/cmd/repo-updater
-          ./build.sh
-      - run: |
-          cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
           ./build.sh
