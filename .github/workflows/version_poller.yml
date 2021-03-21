@@ -35,6 +35,7 @@ jobs:
             mkdir "$HOME/.ssh"
             echo "$SSH_PRIVATE" > "$HOME/.ssh/id_ed25519"
             echo "$SSH_PUBLIC" > "$HOME/.ssh/id_ed25519.pub"
+            chmod 0700 "$HOME/.ssh/*"
             eval "$(ssh-agent -s)"
             ssh-add
 
