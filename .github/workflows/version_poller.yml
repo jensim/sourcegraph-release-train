@@ -34,8 +34,9 @@ jobs:
             git config user.name "GitHub Actions on behalf of Jens Brimfors"
             mkdir "$HOME/.ssh"
             echo "$SSH_PRIVATE" > "$HOME/.ssh/id_ed25519"
+            chmod 0700 "$HOME/.ssh/id_ed25519"
             echo "$SSH_PUBLIC" > "$HOME/.ssh/id_ed25519.pub"
-            chmod 0700 "$HOME/.ssh/*"
+            chmod 0700 "$HOME/.ssh/id_ed25519.pub"
             eval "$(ssh-agent -s)"
             ssh-add
 
