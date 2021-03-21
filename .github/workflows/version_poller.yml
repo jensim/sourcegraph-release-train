@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -exo pipefail
-          current_version="$(cat .latest_version)"
+          current_version="$(cat .latest_version || printf '')"
           curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
           tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
           if [ -n "$tag" ] && [ "$current_version" != "$tag" ] ; then
