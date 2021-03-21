@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/release_train.yml
-      - .latest_version
+      - latest_version
       - train.bash
     branches:
       - main
