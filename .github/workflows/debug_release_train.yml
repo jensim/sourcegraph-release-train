@@ -22,6 +22,7 @@ jobs:
         with:
           repository: sourcegraph/sourcegraph
           path: $HOME/sourcegraph
+          ref: tags/v3.26.0
       - run: |
          cd $HOME/sourcegraph/cmd/gitserver
          ./build.sh
