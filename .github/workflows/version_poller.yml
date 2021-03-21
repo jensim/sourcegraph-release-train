@@ -32,6 +32,7 @@ jobs:
           if [ -n "$tag" ] && [ "$current_version" != "$tag" ] ; then
             git config user.email "jens.brimfors@gmail.com"
             git config user.name "GitHub Actions on behalf of Jens Brimfors"
+            mkdir "$HOME/.ssh"
             echo "$SSH_PRIVATE" > "$HOME/.ssh/id_ed25519"
             echo "$SSH_PUBLIC" > "$HOME/.ssh/id_ed25519.pub"
             eval "$(ssh-agent -s)"
