@@ -22,7 +22,7 @@ jobs:
         with:
           repository: sourcegraph/sourcegraph
           path: sourcegraph
-          ref: v3.26.0
+          ref: v3.25.2
       - run: |
           cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
           ./pre-build.sh
