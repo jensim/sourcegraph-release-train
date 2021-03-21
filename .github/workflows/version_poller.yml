@@ -1,0 +1,42 @@
+name: Release train
+
+on:
+  schedule:
+    - cron:  '15 * * * *' # UTC
+  push:
+    paths:
+      - .github/workflows/version_poller.yml
+    branches:
+      - main
+
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Poll for latest version
+        shell: bash
+        run: |
+          set -exo pipefail
+          current_version="$(cat .latest_version)"
+          curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
+          tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
+          if [ -n "$tag" ] && [ "$current_version" != "$tag" ] ; then
+            git config user.email "jens.brimfors@gmail.com"
+            git config user.name "GitHub Actions on behalf of Jens Brimfors"
+            git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+            git pull github "${GITHUB_REF}" --rebase --ff-only
+
+            echo "New version found! $tag"
+            echo "$tag" > .latest_version
+
+            git add .latest_version
+            git commit -m "Update .latest_version to $tag"
+            git push github "HEAD:${GITHUB_REF}"
+          else
+            exit 0
+          fi

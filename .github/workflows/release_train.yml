@@ -1,11 +1,10 @@
 name: Release train
 
 on:
-  schedule:
-    - cron:  '15 20 * * *'
   push:
     paths:
       - .github/workflows/release_train.yml
+      - .latest_version
       - train.bash
     branches:
       - main
