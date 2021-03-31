@@ -22,10 +22,16 @@ jobs:
         with:
           repository: sourcegraph/sourcegraph
           path: sourcegraph
-          ref: v3.26.0
+          ref: v3.26.1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16.2'
       - name: build server
         env:
-          VERSION: v3.26.0
+          VERSION: v3.26.1
           IMAGE: sourcegraph-server-oss
         run: |
           cd $GITHUB_WORKSPACE/sourcegraph/cmd/server
