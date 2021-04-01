@@ -1,6 +1,9 @@
 # sourcegraph-oss-release-train
 
-https://hub.docker.com/r/jensim/sourcegraph-server-oss/tags?page=1&ordering=last_updated
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/jensim/sourcegraph-server-oss?sort=semver)][docker_hub]
+[![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/jensim/sourcegraph-server-oss?sort=semver)][docker_hub]
+[![Release train](https://github.com/jensim/sourcegraph-release-train/actions/workflows/release_train.yml/badge.svg)][gh_actions]
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/sourcegraph/server?color=orange&label=sourcegraph%20enterprise%20version&logo=sourcegraph&sort=semver)][docker_sg]
 
 This repo just creates a build pipeline on top of [sourcegraph](https://github.com/sourcegraph/sourcegraph)-OSS.
 The [enterprise version](https://hub.docker.com/r/sourcegraph/server) is great, but I cannot afford it beyond the trial, and since I like automating things,
@@ -31,3 +34,7 @@ services:
       - .sourcegraph/data:/var/opt/sourcegraph
       - .sourcegraph/site-conf:/root
 ```
+
+[docker_hub]: https://hub.docker.com/r/jensim/sourcegraph-server-oss/tags?page=1&ordering=last_updated
+[gh_actions]: https://github.com/jensim/sourcegraph-release-train/actions/workflows/release_train.yml
+[docker_sg]: https://hub.docker.com/r/sourcegraph/server
