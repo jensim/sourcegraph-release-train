@@ -6,7 +6,7 @@
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/sourcegraph/server?color=orange&label=sourcegraph%20enterprise%20version&logo=sourcegraph&sort=semver)][docker_sg]
 
 This repo just creates a build pipeline on top of [sourcegraph](https://github.com/sourcegraph/sourcegraph)-OSS.
-The [enterprise version](https://hub.docker.com/r/sourcegraph/server) is great, but I cannot afford it beyond the trial, and since I like automating things,
+The [enterprise version](https://hub.docker.com/r/sourcegraph/server) is great, but I cannot afford it beyond the trial, and since I like automating things,  
 I thought I'd automate the release pipeline for the OSS docker image.
 
 ## Simple run conf
