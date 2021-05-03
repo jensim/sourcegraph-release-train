@@ -9,7 +9,6 @@ on:
     branches:
       - main
 
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -23,13 +22,14 @@ jobs:
         env:
           SSH_PRIVATE: ${{ secrets.SSH_PRIVATE }}
           SSH_PUBLIC: ${{ secrets.SSH_PUBLIC }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
         shell: bash
         run: |
           set -exo pipefail
           current_version="$(cat .latest_version || printf '')"
           curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
           tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
-          if [ -n "$tag" ] && [ "$current_version" != "$tag" ] ; then
+          if [ -n "$tag" ] && [[ "$current_version" < "$tag" ]] ; then
             git config user.email "jens.brimfors@gmail.com"
             git config user.name "GitHub Actions on behalf of Jens Brimfors"
             mkdir "$HOME/.ssh"
@@ -46,6 +46,13 @@ jobs:
             git add .latest_version
             git commit -m "Update .latest_version to $tag"
             git push origin
+
+            curl -vf \
+              -X POST \
+              -u "jensim:$API_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/jensim/sourcegraph-release-train/actions/workflows/release_train.yml/dispatches \
+              -d '{"ref":"main"}'
           else
             exit 0
           fi
