@@ -1,0 +1,38 @@
+name: Release train
+
+on:
+  push:
+    paths:
+      - .github/workflows/release_train_mod.yml
+      - .latest_version
+      - train-mod.bash
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          repository: sourcegraph/sourcegraph
+          path: sourcegraph
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '^v14.15.4'
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16.2'
+      - name: trigger build script
+        env:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+          docker_repo: ${{ secrets.DOCKER_REPO_MOD }}
+        run: |
+          cd "$(git rev-parse --show-toplevel)"
+          bash train-mod.bash
