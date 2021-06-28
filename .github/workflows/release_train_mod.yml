@@ -5,7 +5,7 @@ on:
     paths:
       - .github/workflows/release_train_mod.yml
       - .latest_version
-      - train-mod.bash
+      - mod/train-mod.bash
     branches:
       - main
 
