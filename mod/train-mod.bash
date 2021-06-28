@@ -48,7 +48,7 @@ fi
 
 sed -i "s|const publicKeyData = \`ssh-rsa .*$|const publicKeyData = \`$(cat ../mod/key.pub)\`|" 'enterprise/internal/licensing/licensing.go'
 rm -f ../mod/license.txt
-go run enterprise/internal/license/generate-license.go -private-key "$SOURCEGRAPH_LICENSE_GENERATION_KEY" -tags=dev,enterprise-test,plan:enterprise-0 -users=1000000 -expires=878400h > license.txt
+go run enterprise/internal/license/generate-license.go -private-key "$SOURCEGRAPH_LICENSE_GENERATION_KEY" -tags=enterprise-test,plan:enterprise-0 -users=1000000 -expires=878400h > license.txt
 cd ..
 mv sourcegraph/license.txt mod/license.txt
 git add mod/license.txt
