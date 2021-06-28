@@ -48,18 +48,21 @@ fi
 
 sed -i "s|const publicKeyData = \`ssh-rsa .*$|const publicKeyData = \`$(cat ../mod/key.pub)\`|" 'enterprise/internal/licensing/licensing.go'
 rm -f ../mod/license.txt
-go run enterprise/internal/license/generate-license.go -private-key "$SOURCEGRAPH_LICENSE_GENERATION_KEY" -tags=dev,enterprise-test,plan:enterprise-0 -users=1000000 -expires=878400h > ../mod/license.txt
-git add ../mod/license.txt
+go run enterprise/internal/license/generate-license.go -private-key "$SOURCEGRAPH_LICENSE_GENERATION_KEY" -tags=dev,enterprise-test,plan:enterprise-0 -users=1000000 -expires=878400h > license.txt
+cd ..
+mv sourcegraph/license.txt mod/license.txt
+git add mod/license.txt
+cd sourcegraph
 
-cd enterprise/cmd/server
-./pre-build.sh
-./build.sh
+./enterprise/cmd/server/pre-build.sh
+./enterprise/cmd/server/build.sh
 
 docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${tag}"
 docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${VERSION}"
 
 docker push --all-tags "${docker_username}/${docker_repo}"
 
+cd ..
 git config --local user.email "jensim+github-actions[bot]@users.noreply.github.com"
 git config --local user.name "jensim-github-actions[bot]"
 git commit -m "Regen license" -a
