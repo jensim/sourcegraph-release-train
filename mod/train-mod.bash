@@ -24,6 +24,15 @@ if jq -r '.results[] | .name' /tmp/docker_tags.json | grep -E "^${tag}$"; then
   exit 0
 fi
 
+mkdir -p mod
+openssl genrsa -out /tmp/key.pem 2048
+chmod 0700 /tmp/key.pem
+ssh-keygen -f /tmp/key.pem -y > mod/key.pub
+rm -f mod/key.pem
+mv /tmp/key.pem mod/key.pem
+
+git add mod/key.pem mod/key.pub
+
 export IMAGE="$docker_username/$docker_repo"
 export VERSION="$tag-mod"
 export SOURCEGRAPH_LICENSE_GENERATION_KEY="$PWD/mod/key.pem"
@@ -37,6 +46,11 @@ if [ 'Linux' == "$(uname -s)" ]; then
   sudo apt-get install musl-tools
 fi
 
+sed -i "s|const publicKeyData = \`ssh-rsa .*$|const publicKeyData = \`$(cat ../mod/key.pub)\`|" 'enterprise/internal/licensing/licensing.go'
+rm -f ../mod/license.txt
+go run enterprise/internal/license/generate-license.go -private-key "$SOURCEGRAPH_LICENSE_GENERATION_KEY" -tags=dev,enterprise-test,plan:enterprise-0 -users=1000000 -expires=878400h > ../mod/license.txt
+git add ../mod/license.txt
+
 cd enterprise/cmd/server
 ./pre-build.sh
 ./build.sh
@@ -45,6 +59,10 @@ docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${dock
 docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${VERSION}"
 
 docker push --all-tags "${docker_username}/${docker_repo}"
+
+git config --local user.email "jensim+github-actions[bot]@users.noreply.github.com"
+git config --local user.name "jensim-github-actions[bot]"
+git commit -m "Regen license" -a
 
 echo '===========
 =  Done!  =

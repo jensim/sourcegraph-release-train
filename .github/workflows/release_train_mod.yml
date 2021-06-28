@@ -1,4 +1,4 @@
-name: Release train
+name: Release Train Mod
 
 on:
   push:
@@ -35,4 +35,9 @@ jobs:
           docker_repo: ${{ secrets.DOCKER_REPO_MOD }}
         run: |
           cd "$(git rev-parse --show-toplevel)"
-          bash train-mod.bash
+          bash mod/train-mod.bash
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
