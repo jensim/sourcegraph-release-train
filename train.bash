@@ -10,8 +10,7 @@ cd "$(git rev-parse --show-toplevel)"
 
 docker login --username "$docker_username" --password "$docker_password"
 
-curl https://api.github.com/repos/sourcegraph/sourcegraph/tags -o /tmp/sourcegraph_tags.json
-tag="$(jq -r '.[] |.name' /tmp/sourcegraph_tags.json | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)"
+tag="$(cat .latest_version)"
 
 curl "https://hub.docker.com/v2/repositories/${docker_username}/${docker_repo}/tags" -o /tmp/docker_tags.json
 
