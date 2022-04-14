@@ -11,6 +11,9 @@ I thought I'd automate the release pipeline for the OSS docker image.
 
 ## Simple run conf
 ```shell
+mkdir -p ~/.sourcegraph/config
+mkdir -p ~/.sourcegraph/data
+
 docker run -d \
   --publish 7080:7080 \
   --publish 127.0.0.1:3370:3370 \
