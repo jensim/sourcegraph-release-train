@@ -2,7 +2,7 @@ name: Version poller
 
 on:
   schedule:
-    - cron:  '15 * * * *' # UTC
+    - cron:  '15 0 * * *' # UTC
   push:
     paths:
       - .github/workflows/version_poller.yml
