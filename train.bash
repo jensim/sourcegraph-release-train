@@ -22,7 +22,7 @@ if jq -r '.results[] | .name' /tmp/docker_tags.json | grep -E "^${tag}$"; then
 fi
 
 export IMAGE="$docker_username/$docker_repo"
-export VERSION="$tag-oss"
+export VERSION="$tag"
 
 cd sourcegraph
 
@@ -38,7 +38,7 @@ cd cmd/server
 ./build.sh
 
 docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${tag}"
-docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${VERSION}"
+docker tag "${docker_username}/${docker_repo}:latest" "${docker_username}/${docker_repo}:${tag}-oss"
 
 docker push --all-tags "${docker_username}/${docker_repo}"
 
