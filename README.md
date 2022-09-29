@@ -2,6 +2,7 @@
 
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/jensim/sourcegraph-server-oss?sort=semver)][docker_hub]
 [![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/jensim/sourcegraph-server-oss?sort=semver)][docker_hub]
+![Docker Pulls](https://img.shields.io/docker/pulls/jensim/sourcegraph-server-oss)
 [![Release train](https://github.com/jensim/sourcegraph-release-train/actions/workflows/release_train.yml/badge.svg)][gh_actions]
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/sourcegraph/server?color=orange&label=sourcegraph%20enterprise%20version&logo=sourcegraph&sort=semver)][docker_sg]
 
