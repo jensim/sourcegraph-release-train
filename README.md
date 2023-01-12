@@ -21,9 +21,9 @@ mkdir -p ~/.sourcegraph/data
 docker run -d \
   --publish 7080:7080 \
   --publish 127.0.0.1:3370:3370 \
-  --rm \
   --volume ~/.sourcegraph/config:/etc/sourcegraph \
   --volume ~/.sourcegraph/data:/var/opt/sourcegraph \
+  --name sourcegraph \
   jensim/sourcegraph-server-oss:latest
 ```
 
@@ -32,7 +32,7 @@ docker run -d \
 version: '3.3'
 
 services:
-  source-graph:
+  sourcegraph:
     image: jensim/sourcegraph-server-oss:latest
     ports:
       - "7080:7080"
