@@ -42,8 +42,9 @@ jobs:
 
             echo "New version found! $tag"
             echo "$tag" > .latest_version
+            sed "s|jensim/sourcegraph-server-oss:.*|jensim/sourcegraph-server-oss:$tag|g" < README.md | tac | tac > README.md
 
-            git add .latest_version
+            git add .latest_version README.md
             git commit -m "Update .latest_version to $tag"
             git push origin
 
