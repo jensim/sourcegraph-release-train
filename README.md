@@ -24,7 +24,7 @@ docker run -d \
   --volume ~/.sourcegraph/config:/etc/sourcegraph \
   --volume ~/.sourcegraph/data:/var/opt/sourcegraph \
   --name sourcegraph \
-  jensim/sourcegraph-server-oss:v5.1.0
+  jensim/sourcegraph-server-oss:v5.1.1
 ```
 
 ## docker-compose.yml
@@ -33,7 +33,7 @@ version: '3.3'
 
 services:
   sourcegraph:
-    image: jensim/sourcegraph-server-oss:v5.1.0
+    image: jensim/sourcegraph-server-oss:v5.1.1
     ports:
       - "7080:7080"
     volumes:
