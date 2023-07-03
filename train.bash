@@ -2,6 +2,9 @@
 
 set -xe
 
+echo 'SourceGraph is no longer OSS.'
+exit 1
+
 cd "$(git rev-parse --show-toplevel)"
 
 [ -n "$docker_username" ]
