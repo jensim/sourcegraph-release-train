@@ -1,4 +1,7 @@
+# DEAD repo
 # sourcegraph-oss-release-train
+
+# Sourcegraph no longer has a OpenSource licence setup that allows me to run this release-train passt 5.1.0
 
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/jensim/sourcegraph-server-oss?sort=semver)][docker_hub]
 [![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/jensim/sourcegraph-server-oss?sort=semver)][docker_hub]
@@ -24,7 +27,7 @@ docker run -d \
   --volume ~/.sourcegraph/config:/etc/sourcegraph \
   --volume ~/.sourcegraph/data:/var/opt/sourcegraph \
   --name sourcegraph \
-  jensim/sourcegraph-server-oss:v5.1.1
+  jensim/sourcegraph-server-oss:v5.0.6
 ```
 
 ## docker-compose.yml
@@ -33,7 +36,7 @@ version: '3.3'
 
 services:
   sourcegraph:
-    image: jensim/sourcegraph-server-oss:v5.1.1
+    image: jensim/sourcegraph-server-oss:v5.0.6
     ports:
       - "7080:7080"
     volumes:
