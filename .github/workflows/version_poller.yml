@@ -1,13 +1,6 @@
 name: Version poller
 
 on:
-  schedule:
-    - cron:  '15 0 * * *' # UTC
-  push:
-    paths:
-      - .github/workflows/version_poller.yml
-    branches:
-      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
